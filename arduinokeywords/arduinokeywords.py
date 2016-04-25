@@ -12,11 +12,6 @@ KEYWORD_FORMAT_METHOD = "{{method}}{separator}KEYWORD2".format(separator=KEYWORD
 KEYWORD_FORMAT_CONSTANT = "{{constant}}{separator}LITERAL1".format(separator=KEYWORD_SEP)
 
 
-class HeaderKeywords:
-
-    _classes = {}
-
-
 class ClassKeywords:
 
     def __init__(self, name):
@@ -76,7 +71,6 @@ def parse_header(header_path):
     except CppHeaderParser.CppParseError as e:
         print(e)
         return []
-    pass
 
 
 def get_keywords_fullpath(keywords_path):

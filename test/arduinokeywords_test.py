@@ -4,7 +4,7 @@ from os.path import join
 import unittest
 from unittest.mock import call, patch, mock_open
 
-from arduinokeywords import parse_header, parse_library, output_keywords, find_header_files
+from arduinokeywords import parse_header, parse_library, output_keywords, find_header_files, get_keywords_fullpath
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,6 +25,14 @@ class TestHeaderParser(unittest.TestCase):
 
         self.assertEqual(expected_class, test_class.name)
         self.assertListEqual(sorted(expected_methods), sorted(test_class.get_methods()))
+
+    def testParseMalformedHeader(self):
+
+        test_header_path = join(THIS_DIR, "samples", "MalformedHeader", "MalformedHeader.h")
+
+        expected_classes = []
+
+        self.assertListEqual(expected_classes, parse_header(test_header_path))
 
     def testParseHeaderWithMultipleClasses(self):
 
@@ -125,6 +133,20 @@ class TestHeaderParser(unittest.TestCase):
         retrieved_classes = sorted([c.name for c in parsed_classes])
 
         self.assertListEqual(expected_classes, retrieved_classes)
+
+    def testGetKeywordsPath_WithFilename(self):
+
+        keywords_filename = join(THIS_DIR, "samples", "keywords.txt")
+        expected_result = os.path.abspath(keywords_filename)
+
+        self.assertEqual(expected_result, get_keywords_fullpath(keywords_filename))
+
+    def testGetKeywordsPath_WithoutFilename(self):
+
+        keywords_filename = join(THIS_DIR, "samples")
+        expected_result = join(os.path.abspath(keywords_filename), "keywords.txt")
+
+        self.assertEqual(expected_result, get_keywords_fullpath(keywords_filename))
 
     def testWritingKeywordsTxtFile(self):
 
