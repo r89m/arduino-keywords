@@ -1,3 +1,4 @@
+import os
 from os.path import join
 
 import unittest
@@ -5,13 +6,15 @@ from unittest.mock import call, patch, mock_open
 
 from arduinokeywords import parse_header, parse_library, output_keywords, find_header_files
 
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 PATCH_OPEN_PATH = "arduinokeywords.arduinokeywords.open"
 
 class TestHeaderParser(unittest.TestCase):
 
     def testParseSimpleHeader(self):
 
-        test_header_path = join("samples", "SimpleHeader", "SimpleHeader.h")
+        test_header_path = join(THIS_DIR, "samples", "SimpleHeader", "SimpleHeader.h")
 
         expected_class = "SimpleClass"
         expected_methods = ["publicMethod", "publicIntMethod", "publicMethodWithInt"]
@@ -25,7 +28,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testParseHeaderWithMultipleClasses(self):
 
-        test_header_path = join("samples", "MultipleClasses", "MultipleClasses.h")
+        test_header_path = join(THIS_DIR, "samples", "MultipleClasses", "MultipleClasses.h")
 
         expected_a_name = "ClassA"
         expected_b_name = "ClassB"
@@ -49,7 +52,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testSearchLibraryForHeadersAtRootLevel(self):
 
-        test_library_path = join("samples", "DeepClasses")
+        test_library_path = join(THIS_DIR, "samples", "DeepClasses")
 
         expected_header_files = ["ClassA.h", "ClassB.h"]
         expected_header_files = [join(test_library_path, f) for f in expected_header_files]
@@ -60,7 +63,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testSearchLibraryForHeadersWithDepth2(self):
 
-        test_library_path = join("samples","DeepClasses")
+        test_library_path = join(THIS_DIR, "samples","DeepClasses")
 
         expected_header_files = ["ClassA.h", "ClassB.h", join("DeepOne", "ClassC.h")]
         expected_header_files = [join(test_library_path, f) for f in expected_header_files]
@@ -71,7 +74,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testSearchLibraryForHeadersWithDepth4(self):
 
-        test_library_path = join("samples","DeepClasses")
+        test_library_path = join(THIS_DIR, "samples","DeepClasses")
 
         expected_header_files = ["ClassA.h", "ClassB.h", join("DeepOne", "ClassC.h"),
                                  join("DeepOne", "DeepTwo", "ClassD.h"),
@@ -85,7 +88,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testParseLibraryWithSingleRootLevelHeader(self):
 
-        test_library_path = join("samples", "SimpleHeader")
+        test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
         expected_classes = ["SimpleClass"]
 
         parsed_classes = parse_library(test_library_path)
@@ -95,7 +98,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testParseLibraryWithMultipleRootLevelHeaders(self):
 
-        test_library_path = join("samples", "DeepClasses")
+        test_library_path = join(THIS_DIR, "samples", "DeepClasses")
         expected_classes = ["ClassA", "ClassB"]
 
         parsed_classes = parse_library(test_library_path)
@@ -105,7 +108,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testParseLibraryWithMultipleHeadersOverSeveralDirectories_MaxDepth2(self):
 
-        test_library_path = join("samples", "DeepClasses")
+        test_library_path = join(THIS_DIR, "samples", "DeepClasses")
         expected_classes = ["ClassA", "ClassB", "ClassC"]
 
         parsed_classes = parse_library(test_library_path, max_depth=2)
@@ -115,7 +118,7 @@ class TestHeaderParser(unittest.TestCase):
 
     def testParseLibraryWithMultipleHeadersOverSeveralDirectories_MaxDepth4(self):
 
-        test_library_path = join("samples", "DeepClasses")
+        test_library_path = join(THIS_DIR, "samples", "DeepClasses")
         expected_classes = ["ClassA", "ClassB", "ClassC", "ClassD", "ClassE"]
 
         parsed_classes = parse_library(test_library_path, max_depth=4)
@@ -129,7 +132,7 @@ class TestHeaderParser(unittest.TestCase):
         with patch(PATCH_OPEN_PATH, m, create=True):
 
             test_keywords_filename = "keywords.txt"
-            test_library_path = join("samples", "SimpleHeader")
+            test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
             test_calls = [
                 call(test_keywords_filename, 'w+'),
                 call().__enter__(),
@@ -156,7 +159,7 @@ class TestHeaderParser(unittest.TestCase):
         with patch(PATCH_OPEN_PATH, m, create=True):
 
             test_keywords_filename = "keywords.txt"
-            test_library_path = join("samples", "SimpleHeader")
+            test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
             test_calls = [
                 call(test_keywords_filename, 'w+'),
                 call().__enter__(),
