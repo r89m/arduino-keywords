@@ -92,9 +92,9 @@ def output_keywords(classes, keywords_path, additional_constants=None):
             for method in output_class.get_methods():
                 print(KEYWORD_FORMAT_METHOD.format(method=method), file=keywords_file)
 
-		if additional_constants is not None:
-			for constant in additional_constants:
-				print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
+        if additional_constants is not None:
+            for constant in additional_constants:
+                print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
 
 
 
