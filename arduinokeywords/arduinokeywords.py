@@ -60,7 +60,7 @@ def parse_header(header_path):
         classes = []
 
         for class_name, header_class in cpp_header.classes.items():
-            keyword_class = ClassKeywords(header_class["name"])
+            keyword_class = ClassKeywords(class_name)
             for method in header_class["methods"]["public"]:
                 # Ignore constructors and destructors
                 if not (method["constructor"] or method["destructor"]):
