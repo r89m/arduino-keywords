@@ -84,7 +84,7 @@ def get_keywords_fullpath(keywords_path):
 
     return os.path.abspath(keywords_path)
 
-def output_keywords(classes, keywords_path, additional_constants=[]):
+def output_keywords(classes, keywords_path, additional_constants=None):
 
     with open(keywords_path, 'w+') as keywords_file:
         for output_class in classes:
@@ -92,8 +92,9 @@ def output_keywords(classes, keywords_path, additional_constants=[]):
             for method in output_class.get_methods():
                 print(KEYWORD_FORMAT_METHOD.format(method=method), file=keywords_file)
 
-        for constant in additional_constants:
-            print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
+		if additional_constants is not None:
+			for constant in additional_constants:
+				print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
 
 
 
