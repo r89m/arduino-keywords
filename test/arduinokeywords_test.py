@@ -10,7 +10,8 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PATCH_OPEN_PATH = "arduinokeywords.arduinokeywords.open"
 
-class TestHeaderParser(unittest.TestCase):
+
+class arduinokeywords_test(unittest.TestCase):
 
     def testParseSimpleHeader(self):
 
