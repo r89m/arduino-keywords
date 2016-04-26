@@ -60,7 +60,7 @@ def parse_header(header_path):
         classes = []
 
         for class_name, header_class in cpp_header.classes.items():
-            keyword_class = ClassKeywords(header_class["name"])
+            keyword_class = ClassKeywords(class_name)
             for method in header_class["methods"]["public"]:
                 # Ignore constructors and destructors
                 if not (method["constructor"] or method["destructor"]):
@@ -84,7 +84,7 @@ def get_keywords_fullpath(keywords_path):
 
     return os.path.abspath(keywords_path)
 
-def output_keywords(classes, keywords_path, additional_constants=[]):
+def output_keywords(classes, keywords_path, additional_constants=None):
 
     with open(keywords_path, 'w+') as keywords_file:
         for output_class in classes:
@@ -92,8 +92,9 @@ def output_keywords(classes, keywords_path, additional_constants=[]):
             for method in output_class.get_methods():
                 print(KEYWORD_FORMAT_METHOD.format(method=method), file=keywords_file)
 
-        for constant in additional_constants:
-            print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
+        if additional_constants is not None:
+            for constant in additional_constants:
+                print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
 
 
 
