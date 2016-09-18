@@ -1,4 +1,5 @@
 import os
+import sys
 
 import fnmatch
 import glob
@@ -71,7 +72,7 @@ def parse_header(header_path):
         return classes
 
     except CppHeaderParser.CppParseError as e:
-        print(e)
+        print(e, file=sys.stderr)
         return []
 
 

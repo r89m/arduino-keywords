@@ -11,7 +11,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PATCH_OPEN_PATH = "arduinokeywords.arduinokeywords.open"
 
 
-class arduinokeywords_test(unittest.TestCase):
+class test_ArduinoKeywords(unittest.TestCase):
 
     def testParseSimpleHeader(self):
 
@@ -72,7 +72,7 @@ class arduinokeywords_test(unittest.TestCase):
 
     def testSearchLibraryForHeadersWithDepth2(self):
 
-        test_library_path = join(THIS_DIR, "samples","DeepClasses")
+        test_library_path = join(THIS_DIR, "samples", "DeepClasses")
 
         expected_header_files = ["ClassA.h", "ClassB.h", join("DeepOne", "ClassC.h")]
         expected_header_files = [join(test_library_path, f) for f in expected_header_files]
@@ -83,7 +83,7 @@ class arduinokeywords_test(unittest.TestCase):
 
     def testSearchLibraryForHeadersWithDepth4(self):
 
-        test_library_path = join(THIS_DIR, "samples","DeepClasses")
+        test_library_path = join(THIS_DIR, "samples", "DeepClasses")
 
         expected_header_files = ["ClassA.h", "ClassB.h", join("DeepOne", "ClassC.h"),
                                  join("DeepOne", "DeepTwo", "ClassD.h"),
@@ -134,6 +134,14 @@ class arduinokeywords_test(unittest.TestCase):
         retrieved_classes = sorted([c.name for c in parsed_classes])
 
         self.assertListEqual(expected_classes, retrieved_classes)
+
+    def testParseLibraryErrorsOnGarbageHeader(self):
+
+        test_library_path = join(THIS_DIR, "samples", "Garbage", "Garbage.h")
+
+        retrieved_classes = parse_header(test_library_path)
+
+        self.assertListEqual([], retrieved_classes)
 
     def testGetKeywordsPath_WithFilename(self):
 
