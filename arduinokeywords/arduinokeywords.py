@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 
 import fnmatch
@@ -5,17 +7,18 @@ import glob
 
 import CppHeaderParser
 
-KEYWORDS_FILENAME = "keywords.txt"
-KEYWORD_SEP = "\t"
-KEYWORD_FORMAT_CLASS = "{{className}}{separator}KEYWORD1".format(separator=KEYWORD_SEP)
-KEYWORD_FORMAT_METHOD = "{{method}}{separator}KEYWORD2".format(separator=KEYWORD_SEP)
-KEYWORD_FORMAT_CONSTANT = "{{constant}}{separator}LITERAL1".format(separator=KEYWORD_SEP)
+KEYWORDS_FILENAME = u"keywords.txt"
+KEYWORD_SEP = u"\t"
+KEYWORD_FORMAT_CLASS = u"{{class_name}}{separator}KEYWORD1".format(separator=KEYWORD_SEP)
+KEYWORD_FORMAT_METHOD = u"{{method}}{separator}KEYWORD2".format(separator=KEYWORD_SEP)
+KEYWORD_FORMAT_CONSTANT = u"{{constant}}{separator}LITERAL1".format(separator=KEYWORD_SEP)
 
 
 class ClassKeywords:
 
-    def __init__(self, name):
+    def __init__(self, name, filename=None):
         self.name = name
+        self.filename = filename
         self._methods = []
 
     def add_method(self, method_name):
@@ -60,7 +63,7 @@ def parse_header(header_path):
         classes = []
 
         for class_name, header_class in cpp_header.classes.items():
-            keyword_class = ClassKeywords(class_name)
+            keyword_class = ClassKeywords(class_name, header_path)
             for method in header_class["methods"]["public"]:
                 # Ignore constructors and destructors
                 if not (method["constructor"] or method["destructor"]):
@@ -84,17 +87,20 @@ def get_keywords_fullpath(keywords_path):
 
     return os.path.abspath(keywords_path)
 
-def output_keywords(classes, keywords_path, additional_constants=None):
 
-    with open(keywords_path, 'w+') as keywords_file:
-        for output_class in classes:
-            print(KEYWORD_FORMAT_CLASS.format(className=output_class.name), file=keywords_file)
-            for method in output_class.get_methods():
-                print(KEYWORD_FORMAT_METHOD.format(method=method), file=keywords_file)
+def output_keywords(classes, keywords_file, additional_constants=None):
 
-        if additional_constants is not None:
-            for constant in additional_constants:
-                print(KEYWORD_FORMAT_CONSTANT.format(constant=constant), file=keywords_file)
+    for output_class in classes:
+        keywords_file.write(KEYWORD_FORMAT_CLASS.format(class_name=output_class.name))
+        keywords_file.write("\n")
+        for method in output_class.get_methods():
+            keywords_file.write(KEYWORD_FORMAT_METHOD.format(method=method))
+            keywords_file.write("\n")
+
+    if additional_constants is not None:
+        for constant in additional_constants:
+            keywords_file.write(KEYWORD_FORMAT_CONSTANT.format(constant=constant))
+            keywords_file.write("\n")
 
 
 
