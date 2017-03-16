@@ -1,4 +1,7 @@
-#arduino-keyword-generator#
+# arduino-keyword-generator #
+
+[![Build Status](https://travis-ci.org/r89m/arduino-keywords-generator.svg?branch=master)](https://travis-ci.org/r89m/arduino-keywords-generator)
+[![Coverage Status](https://coveralls.io/repos/github/r89m/arduino-keywords-generator/badge.svg?branch=master)](https://coveralls.io/github/r89m/arduino-keywords-generator?branch=master)
 
 A script for automatically generating a keywords.txt file for Arduino libraries
 
