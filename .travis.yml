@@ -1,16 +1,26 @@
 language: python
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
+  - '2.7'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+  - '3.6'
+
 install:
   - pip install tox-travis
   - pip install -U tox
 
 script:
   - tox -e ci
+
+deploy:
+  provider: pypi
+  user: r89m
+  password:
+    secure: PYPI_PASSWORD
+  on:
+    branch: master
+    tags: true
 
 notifications:
   email:
