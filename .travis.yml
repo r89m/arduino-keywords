@@ -4,17 +4,13 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-# command to install dependencies
+  - "3.6"
 install:
-  - pip install .
-  - pip install -r requirements.txt
-  - pip install coveralls
-# command to run tests
-script:
-  - python -m coverage run --source=arduinokeywords --omit=arduinokeywords/run.py setup.py test
+  - pip install tox-travis
+  - pip install -U tox
 
-after_success:
-  coveralls
+script:
+  - tox -e ci
 
 notifications:
   email:

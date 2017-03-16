@@ -1,17 +1,17 @@
 import os
 from os.path import join
 
-import unittest
-from unittest.mock import call, patch, mock_open
+from unittest import TestCase
+from io import StringIO
 
-from arduinokeywords import parse_header, parse_library, output_keywords, find_header_files, get_keywords_fullpath
+from arduinokeywords.arduinokeywords import parse_header, parse_library, output_keywords, find_header_files, get_keywords_fullpath
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PATCH_OPEN_PATH = "arduinokeywords.arduinokeywords.open"
 
 
-class arduinokeywords_test(unittest.TestCase):
+class Test_arduinokeywords(TestCase):
 
     def testParseSimpleHeader(self):
 
@@ -151,60 +151,26 @@ class arduinokeywords_test(unittest.TestCase):
 
     def testWritingKeywordsTxtFile(self):
 
-        m = mock_open()
-        with patch(PATCH_OPEN_PATH, m, create=True):
+        test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
+        classes = parse_library(test_library_path)
 
-            test_keywords_filename = "keywords.txt"
-            test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
-            test_calls = [
-                call(test_keywords_filename, 'w+'),
-                call().__enter__(),
-                call().write("SimpleClass\tKEYWORD1"),
-                call().write('\n'),
-                call().write('publicIntMethod\tKEYWORD2'),
-                call().write('\n'),
-                call().write('publicMethod\tKEYWORD2'),
-                call().write('\n'),
-                call().write('publicMethodWithInt\tKEYWORD2'),
-                call().write('\n'),
-                call().__exit__(None, None, None)
-            ]
+        outfile = StringIO()
+        output_keywords(classes, outfile)
+        outfile.seek(0)
+        content = outfile.read()
+        self.assertEqual(content, "SimpleClass\tKEYWORD1\npublicIntMethod\tKEYWORD2\npublicMethod\tKEYWORD2\npublicMethodWithInt\tKEYWORD2\n")
 
-            classes = parse_library(test_library_path)
-
-            output_keywords(classes, test_keywords_filename)
-
-            m.assert_has_calls(test_calls)
 
     def testWritingKeywordsTxtFileWithAdditionalMethodsAndConstants(self):
 
-        m = mock_open()
-        with patch(PATCH_OPEN_PATH, m, create=True):
+        test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
 
-            test_keywords_filename = "keywords.txt"
-            test_library_path = join(THIS_DIR, "samples", "SimpleHeader")
-            test_calls = [
-                call(test_keywords_filename, 'w+'),
-                call().__enter__(),
-                call().write("SimpleClass\tKEYWORD1"),
-                call().write('\n'),
-                call().write('publicIntMethod\tKEYWORD2'),
-                call().write('\n'),
-                call().write('publicMethod\tKEYWORD2'),
-                call().write('\n'),
-                call().write('publicMethodWithInt\tKEYWORD2'),
-                call().write('\n'),
-                call().write('const1\tLITERAL1'),
-                call().write('\n'),
-                call().write('const2\tLITERAL1'),
-                call().write('\n'),
-                call().__exit__(None, None, None)
-            ]
+        classes = parse_library(test_library_path)
 
-            classes = parse_library(test_library_path)
+        additional_constants = ["const1", "const2"]
 
-            additional_constants = ["const1", "const2"]
-
-            output_keywords(classes, test_keywords_filename, additional_constants)
-
-            m.assert_has_calls(test_calls)
+        outfile = StringIO()
+        output_keywords(classes, outfile, additional_constants)
+        outfile.seek(0)
+        content = outfile.read()
+        self.assertEqual(content, "SimpleClass\tKEYWORD1\npublicIntMethod\tKEYWORD2\npublicMethod\tKEYWORD2\npublicMethodWithInt\tKEYWORD2\nconst1\tLITERAL1\nconst2\tLITERAL1\n")
