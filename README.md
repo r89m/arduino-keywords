@@ -1,4 +1,4 @@
-# arduino-keyword-generator #
+# arduino-keyword #
 
 [![Build Status](https://travis-ci.org/r89m/arduino-keywords-generator.svg?branch=master)](https://travis-ci.org/r89m/arduino-keywords-generator)
 [![Coverage Status](https://coveralls.io/repos/github/r89m/arduino-keywords-generator/badge.svg?branch=master)](https://coveralls.io/github/r89m/arduino-keywords-generator?branch=master)
@@ -7,10 +7,8 @@
 A script for automatically generating a keywords.txt file for Arduino libraries
 
 ## Quick Start ##
-Download the zip, extract it and navigate to it.
+```pip install arduinokeywords```
 
-Then run ```pip install .``` and you're done.
+You can then use ```arduino-keywords``` in any directory to produce a ```keywords.txt``` file.
 
-You can then use ```arduino-keywords-generator``` in any directory to produce a ```keywords.txt``` file.
-
-Use ```arduino-keywords-generator --help``` for additional options
+Use ```arduino-keywords --help``` for additional options
