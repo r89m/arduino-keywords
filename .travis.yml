@@ -13,6 +13,9 @@ install:
 script:
   - tox -e ci
 
+before_deploy:
+  - .ci-scripts/check-version.py "${TRAVIS_TAG}"
+
 deploy:
   provider: pypi
   user: r89m
