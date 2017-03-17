@@ -1,7 +1,14 @@
+import os
 from setuptools import setup
 
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+
+# get version information
+exec(open('arduinokeywords/version.py').read())
+
 setup(name="ArduinoKeywords",
-      version="1.0.3",
+      version=__version__,
       description="A script for automatically generating a keywords.txt file for Arduino libraries",
       author="Richard Miles",
       author_email="pypi@fast-chat.co.uk",

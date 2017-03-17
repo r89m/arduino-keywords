@@ -6,10 +6,11 @@ import sys
 import argparse
 
 from arduinokeywords.arduinokeywords import parse_header, parse_library, output_keywords, get_keywords_fullpath
+from arduinokeywords.version import __version__
 
 # Setup command line parameters
 parser = argparse.ArgumentParser(description='Generate a keywords.txt file for the Arduino IDE.')
-parser.add_argument(type=str, dest='source', metavar="dir", default=os.getcwd(),
+parser.add_argument(type=str, dest='source', metavar="dir", default=os.getcwd(), nargs='?',
                     help='Your library\'s root directory. Defaults to current directory')
 parser.add_argument('-o', '--output', type=str, dest='output', metavar="dir", default="./",
                     help='The folder in which the keywords.txt file will be created. Defaults to --source')
@@ -21,8 +22,13 @@ parser.add_argument('-f', '--header', '--header-file', type=str, dest='headers',
                          'defined by repeating this argument', metavar="file")
 parser.add_argument('-d', '--depth', type=int, dest='depth', default=1,
                     help='Specify how deep the automatic header search should look')
+parser.add_argument('-v', '--version', help='Print version and quit', action='store_true')
 
 args = parser.parse_args()
+
+if args.version:
+    print(__version__)
+    sys.exit(0)
 
 args.source = os.path.abspath(args.source)
 
