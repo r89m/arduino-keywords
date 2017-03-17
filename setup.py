@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="ArduinoKeywords",
-      version="1.0.1",
+      version="1.0.2",
       description="A script for automatically generating a keywords.txt file for Arduino libraries",
       author="Richard Miles",
       author_email="pypi@fast-chat.co.uk",
