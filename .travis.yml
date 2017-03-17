@@ -16,7 +16,8 @@ script:
 deploy:
   provider: pypi
   user: r89m
-  password: PYPI_PASSWORD
+  password:
+    secure: Z3amvm2PlGVnSZuPaVA0jxVNll06RjpflX58y7aG4mwkKIHvfUiEbICAkvzUc0lFoHBPbzC2YoF3f79qWTQ0Ww+c9jRQDhkfhvcGB3dD9fO6MN82RkcI9BMloxtZ9VGZRcckUYXtAKXEhMSHq414FDGNzOLVjysmYphyTpn+m6CgXJ8yNEci8PvVg01xjXIHVuQ4FkddY3D2yUIBZJZ9+IhDAArg6Y2y4xXuH6JcqI9WqRJ44kX6hwiBpLxxspBt54skdN7+zsz2FecWXQ/rxh0RiC2eyAXWMCNswDKr0fqCxycPUyyW2PKnyE5cvEzRXO3KxtDQP4LwCWt4sL9zki8Ay3/ENtiZkzBGMmPmiXV3e/HVfz9GLlsd1VjmwpY1khu2sgn34ZL7oSLfJ7XdIYMv/2AiRStPdW464FjbOXsBjllcIq1C5uTjPbLCxVQFIRTTeWi7jjRT5Sp3/qji3An36epEIeWMIevtVavT7D3WB9HnsCQqU0PZXxwav64tMRdpWHDFuJY52cZ79wN7s1Yq05hU5HP00U7V6dDvLh1y/zHP7Dpy1N9XyqL3n18V1xzFUaij+/5sioMvHYG6l8NFr9FMnud2UOpfi7rUagDMqnHRQGCA+n//RVK1Bka+egdLwFYnRLxETOcUS9eZqbtJzwCXktAaGbLC6erP8mA=
   on:
     branch: master
     tags: true
