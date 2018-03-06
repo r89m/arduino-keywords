@@ -12,3 +12,17 @@ A script for automatically generating a keywords.txt file for Arduino libraries
 You can then use ```arduino-keywords``` in any directory to produce a ```keywords.txt``` file.
 
 Use ```arduino-keywords --help``` for additional options
+
+## Requirement ##
+
+Python 2.7, 3.3 or higher.
+
+## Capability ##
+
+Generates `keyswords.txt` for Arduino libraries for:
+
+* classes	(KEYWORD1)
+* functions (KEYWORD2)
+
+Not (yet) working:
+* constants and values of enum (LITERAL1)
