@@ -6,9 +6,20 @@
 
 A script for automatically generating a keywords.txt file for Arduino libraries
 
+### Supports ###
+* Classes	(KEYWORD1)
+* Methods (KEYWORD2)
+
+### Coming Soon ###
+* Constants and Enum Values (LITERAL1)
+
 ## Quick Start ##
 ```pip install arduinokeywords```
 
 You can then use ```arduino-keywords``` in any directory to produce a ```keywords.txt``` file.
 
 Use ```arduino-keywords --help``` for additional options
+
+## Requirements ##
+
+Python 2.7, 3.3 or higher.
